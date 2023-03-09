@@ -118,8 +118,6 @@ namespace uchpr.ViewModels
             if (dataTable.Rows.Count > 0)
             {
                 AuthorizationStatus = "Авторизован";
-                mainWindow = new MainWindow();
-                mainWindow.Show();
             }
             else
             {
