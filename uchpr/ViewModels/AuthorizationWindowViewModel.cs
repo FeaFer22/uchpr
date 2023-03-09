@@ -68,7 +68,6 @@ namespace uchpr.ViewModels
         }
         #endregion
 
-
         MainWindow mainWindow;
         public AuthorizationWindowViewModel()
         {
@@ -102,6 +101,7 @@ namespace uchpr.ViewModels
 
         #endregion
 
+
         public void UserAuthentification()
         {
             string queryString = "select * from employee where login = @login and password = @password";
@@ -118,6 +118,9 @@ namespace uchpr.ViewModels
             if (dataTable.Rows.Count > 0)
             {
                 AuthorizationStatus = "Авторизован";
+                mainWindow = new MainWindow();
+                mainWindow.Show();
+                Application.Current.MainWindow.Close();
             }
             else
             {
