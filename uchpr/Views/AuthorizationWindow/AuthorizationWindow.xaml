@@ -28,7 +28,7 @@
                 </Grid>
             </Grid>
             <Grid x:Name="submitGrid" VerticalAlignment="Bottom">
-                <Button x:Name="loginButton" Content="Войти" Click="loginButton_Click" Command="{Binding UserAuthentificationCommand}" HorizontalAlignment="Center" Width="100" Height="25"/>
+                <Button x:Name="loginButton" Content="Войти" Command="{Binding UserAuthentificationCommand}" HorizontalAlignment="Center" Width="100" Height="25"/>
             </Grid>
         </Grid>
         <Grid x:Name="connectionStateGrid" Height="25" VerticalAlignment="Bottom">

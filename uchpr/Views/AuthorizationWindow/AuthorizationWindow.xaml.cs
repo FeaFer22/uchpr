@@ -26,12 +26,5 @@ namespace uchpr.Views.AuthorizationWindow
         {
             InitializeComponent();
         }
-
-        private void loginButton_Click(object sender, RoutedEventArgs e)
-        {
-            mainWindow = new MainWindow();
-            mainWindow.Show();
-            Close();
-        }
     }
 }
