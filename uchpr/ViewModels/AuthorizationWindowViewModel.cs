@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using uchpr.Models;
 using uchpr.Utilities;
 using uchpr.Utilities.Commands;
 using uchpr.ViewModels.Base;
@@ -45,7 +46,7 @@ namespace uchpr.ViewModels
         #endregion
 
         #region Логин
-        private string _login = "";
+        private string _login;
         public string Login
         {
             get => _login;
@@ -68,7 +69,12 @@ namespace uchpr.ViewModels
         }
         #endregion
 
+        SQLUtilities sqlUtilities;
         MainWindow mainWindow;
+        WindowsManagement windowsManagement;
+
+
+
         public AuthorizationWindowViewModel()
         {
             MySqlConnection connection = DBUtilities.GetDBConnection();
@@ -101,32 +107,32 @@ namespace uchpr.ViewModels
 
         #endregion
 
-
         public void UserAuthentification()
         {
             string queryString = "select * from employee where login = @login and password = @password";
+
+            sqlUtilities = new SQLUtilities();
+            windowsManagement = new();
+            MySqlCommand sqlCommand = sqlUtilities.PullData(queryString);
             DataTable dataTable = new();
-            MySqlDataAdapter dataAdapter = new();
+            sqlUtilities.AddTypeValue(sqlCommand, "@login", MySqlDbType.VarChar, _login);
+            sqlUtilities.AddTypeValue(sqlCommand, "@password", MySqlDbType.VarChar, _password);
 
-            MySqlCommand sqlCommand = new(queryString, DBUtilities.GetDBConnection());
-            sqlCommand.Parameters.Add("@login", MySqlDbType.VarChar).Value = _login;
-            sqlCommand.Parameters.Add("@password", MySqlDbType.VarChar).Value = _password;
+            dataTable = sqlUtilities.FillDataTable(sqlCommand, dataTable);
 
-            dataAdapter.SelectCommand = sqlCommand;
-            dataAdapter.Fill(dataTable);
 
             if (dataTable.Rows.Count > 0)
             {
+                Login = _login;
+                Password = _password;
                 AuthorizationStatus = "Авторизован";
-                mainWindow = new MainWindow();
-                mainWindow.Show();
-                Application.Current.MainWindow.Close();
+                mainWindow = new();
+                windowsManagement.SwitchWindow(mainWindow);
             }
             else
             {
                 AuthorizationStatus = "Не удалось авторизировать";
             }
-
         }
     }
 }

@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using uchpr.Models;
 using uchpr.Utilities;
 
 namespace uchpr.Views.AuthorizationWindow
@@ -21,7 +22,6 @@ namespace uchpr.Views.AuthorizationWindow
     /// </summary>
     public partial class AuthorizationWindow : Window
     {
-        MainWindow mainWindow;
         public AuthorizationWindow()
         {
             InitializeComponent();

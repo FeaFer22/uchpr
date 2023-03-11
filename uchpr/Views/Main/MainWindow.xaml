@@ -4,10 +4,44 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:uchpr"
+        xmlns:viewmodels="clr-namespace:uchpr.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Button x:Name="logoutButton" Content="Выход" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-
+    <Window.DataContext>
+        <viewmodels:MainWindowViewModel/>
+    </Window.DataContext>
+    <Grid x:Name="mainGrid">
+        <Grid x:Name="logGrid" VerticalAlignment="Top" Margin="15,5,15,0">
+            <Button x:Name="logoutButton" Command="{Binding LogoutCommand}" Content="Выход" HorizontalAlignment="Right" Margin="15,0,0,0" Width="75"/>
+            <Label x:Name="welcomeLabel" Content="{Binding Login}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Grid>
+        <Grid x:Name="ordersListGrid" Margin="15,35,15,0" VerticalAlignment="Top">
+            <DataGrid Name="ordersDataGrid" ItemsSource="{Binding}" AutoGenerateColumns="true" ColumnWidth="*" CanUserAddRows="false"/>
+        </Grid>
+        <Grid x:Name="newOrderGrid" VerticalAlignment="Bottom" Margin="25,75,25,25">
+            <GroupBox Header="Новый заказ"/>
+            <Grid Margin="10,10,10,10">
+                <Grid x:Name="labelGrid" HorizontalAlignment="Left" Margin="0,25,0,5">
+                    <Label x:Name="newOrderLabel" Content="Номер заказа: " VerticalAlignment="Top" Margin="15,0,0,0" HorizontalAlignment="Left" Height="25"/>
+                    <Label x:Name="dateLabel" Content="Дата оформления:" VerticalAlignment="Top" Margin="15,30,0,0" HorizontalAlignment="Left" Height="25"/>
+                    <Label x:Name="clientLabel" Content="Клиент: " VerticalAlignment="Top" Margin="15,60,0,0" HorizontalAlignment="Left" Height="25"/>
+                    <Label x:Name="serviceLabel" Content="Услуги:" VerticalAlignment="Top" Margin="15,90,0,0" HorizontalAlignment="Left" Height="25"/>
+                    <Label x:Name="priceLabel" Content="Стоимость, руб.:" VerticalAlignment="Top" Margin="15,120,0,0" HorizontalAlignment="Left" Height="25"/>
+                    <Label x:Name="priceLabel_Copy" Content="С учетом скидки:" VerticalAlignment="Top" Margin="15,150,0,0" HorizontalAlignment="Left" Height="25"/>
+                </Grid>
+                <Grid x:Name="fieldGrid" Margin="150,25,150,5">
+                    <TextBox TextWrapping="Wrap" Height="25" VerticalAlignment="Top" Text="{Binding Id}"/>
+                    <DatePicker Margin="0,30,0,0" Text="{Binding Date}" Height="25" VerticalAlignment="Top"/>
+                    <ComboBox Margin="0,60,0,0" Text="{Binding ClientCode}" Height="25" VerticalAlignment="Top"/>
+                    <ComboBox Margin="0,90,0,0" Text="{Binding ServiceCode}" Height="25" VerticalAlignment="Top"/>
+                    <Label Margin="0,120,0,0"  Content="..." VerticalAlignment="Top"/>
+                    <Label Content="..." Margin="0,150,0,0" VerticalAlignment="Top"/>
+                </Grid>
+                <Grid x:Name="orderSaveGrid" HorizontalAlignment="Right" Margin="0,25,0,5">
+                    <Button x:Name="orderSaveButton" Command="{Binding SaveOrderCommand}" Content="Сохранить заказ" VerticalAlignment="Top" Width="125" Height="25" Margin="5,0,5,0"/>
+                </Grid>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

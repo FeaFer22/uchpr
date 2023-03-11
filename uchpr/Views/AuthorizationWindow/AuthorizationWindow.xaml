@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:uchpr.Views.AuthorizationWindow"
         xmlns:viewmodels="clr-namespace:uchpr.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:AuthorizationWindowViewModel}"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="AuthorizationWindow" Height="300" Width="350" ResizeMode="NoResize">
     <Window.DataContext>
         <viewmodels:AuthorizationWindowViewModel/>
