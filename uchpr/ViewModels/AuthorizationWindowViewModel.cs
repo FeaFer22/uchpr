@@ -1,13 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Operators;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -15,26 +8,13 @@ using uchpr.Models;
 using uchpr.Utilities;
 using uchpr.Utilities.Commands;
 using uchpr.ViewModels.Base;
-using uchpr.Views.AuthorizationWindow;
 
 namespace uchpr.ViewModels
 {
     public class AuthorizationWindowViewModel : ViewModel
     {
-        #region Статус Подключения
-        private string _connectionStatus = "...";
-        public string ConnectionStatus
-        {
-            get => _connectionStatus;
-            set
-            {
-                Set(ref _connectionStatus, value);
-            }
-        }
-        #endregion
-
         #region Статус Входа
-        private string _authorizationStatus = "...";
+        private string _authorizationStatus = "";
         public string AuthorizationStatus
         {
             get => _authorizationStatus;
@@ -69,26 +49,13 @@ namespace uchpr.ViewModels
         }
         #endregion
 
-        SQLUtilities sqlUtilities;
-        MainWindow mainWindow;
+        MySqlConnection connection;
         WindowsManagement windowsManagement;
-
-
-
+        Task task;
         public AuthorizationWindowViewModel()
         {
-            MySqlConnection connection = DBUtilities.GetDBConnection();
-            try
-            {
-                _connectionStatus = "Openning connection";
-                connection.Open();
-                _connectionStatus = "Connection successeful!";
-            }
-            catch (Exception)
-            {
-                _connectionStatus = "Connection error!";
-                connection.Close();
-            }
+            connection = DBUtilities.GetDBConnection();
+            windowsManagement = new();
             UserAuthentificationCommand = new ActionCommand(OnUserAuthentificationCommandExecuted, CanUserAuthentificationCommandExecute);
         }
 
@@ -109,29 +76,45 @@ namespace uchpr.ViewModels
 
         public void UserAuthentification()
         {
-            string queryString = "select * from employee where login = @login and password = @password";
-
-            sqlUtilities = new SQLUtilities();
-            windowsManagement = new();
-            MySqlCommand sqlCommand = sqlUtilities.PullData(queryString);
-            DataTable dataTable = new();
-            sqlUtilities.AddTypeValue(sqlCommand, "@login", MySqlDbType.VarChar, _login);
-            sqlUtilities.AddTypeValue(sqlCommand, "@password", MySqlDbType.VarChar, _password);
-
-            dataTable = sqlUtilities.FillDataTable(sqlCommand, dataTable);
-
-
-            if (dataTable.Rows.Count > 0)
+            try
             {
-                Login = _login;
-                Password = _password;
-                AuthorizationStatus = "Авторизован";
-                mainWindow = new();
-                windowsManagement.SwitchWindow(mainWindow);
+                connection.Open();
+                var query =
+                    $"SELECT * FROM employee " +
+                    $"WHERE login = {_login} " +
+                    $"AND password = {_password}";
+
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+
+                Employee result = null;
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    result = new Employee
+                    {
+                        id = dataReader.GetInt16("id"),
+                        name = dataReader.GetString("name")
+                    };
+                }
+
+                dataReader.Close();
+
+                if (result != null)
+                {
+                    MainWindow mainWindow;
+                    AuthorizationStatus = "Успешная авторизация";
+                    windowsManagement.SwitchWindow(mainWindow = new());
+                }
+                else
+                {
+                    AuthorizationStatus = "Логин или пароль неверны";
+                }
+
+                connection.Close();
             }
-            else
+            catch
             {
-                AuthorizationStatus = "Не удалось авторизировать";
             }
         }
     }

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace uchpr.Interfaces
 {
-    internal interface IUserInfo
+    internal interface IEmployee
     {
-        string userName { get; set; }
-        string password { get; set; }
+        int id { get; set; }
+        string name { get; set; }
     }
 }

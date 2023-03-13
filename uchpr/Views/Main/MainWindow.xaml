@@ -14,10 +14,10 @@
     <Grid x:Name="mainGrid">
         <Grid x:Name="logGrid" VerticalAlignment="Top" Margin="15,5,15,0">
             <Button x:Name="logoutButton" Command="{Binding LogoutCommand}" Content="Выход" HorizontalAlignment="Right" Margin="15,0,0,0" Width="75"/>
-            <Label x:Name="welcomeLabel" Content="{Binding Login}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Label x:Name="welcomeLabel" DataContext="{Binding }" Content="{Binding WelcomeLabel}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
         <Grid x:Name="ordersListGrid" Margin="15,35,15,0" VerticalAlignment="Top">
-            <DataGrid Name="ordersDataGrid" ItemsSource="{Binding}" AutoGenerateColumns="true" ColumnWidth="*" CanUserAddRows="false"/>
+            <DataGrid Name="ordersDataGrid" ItemsSource="{Binding OrdersDataGridItemsSource}" AutoGenerateColumns="True" ColumnWidth="*" CanUserAddRows="false"/>
         </Grid>
         <Grid x:Name="newOrderGrid" VerticalAlignment="Bottom" Margin="25,75,25,25">
             <GroupBox Header="Новый заказ"/>
@@ -32,9 +32,21 @@
                 </Grid>
                 <Grid x:Name="fieldGrid" Margin="150,25,150,5">
                     <TextBox TextWrapping="Wrap" Height="25" VerticalAlignment="Top" Text="{Binding Id}"/>
-                    <DatePicker Margin="0,30,0,0" Text="{Binding Date}" Height="25" VerticalAlignment="Top"/>
-                    <ComboBox Margin="0,60,0,0" Text="{Binding ClientCode}" Height="25" VerticalAlignment="Top"/>
-                    <ComboBox Margin="0,90,0,0" Text="{Binding ServiceCode}" Height="25" VerticalAlignment="Top"/>
+                    <DatePicker Margin="0,30,0,0" Text="{Binding Date, Mode=TwoWay}" Height="25" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="clientComboBox" Margin="0,60,0,0" 
+                              SelectedItem="{Binding ClientComboBoxItemsSource}"
+                              ItemsSource="{Binding ClientComboBoxItemsSource}" 
+                              DisplayMemberPath="{Binding ClientComboBoxDisplayMemberPath}" 
+                              SelectedValuePath="{Binding ClientComboBoxSelectedValuePath}" 
+                              SelectedValue="{Binding ClientComboBoxSelectedValue}"
+                              Height="25" VerticalAlignment="Top" >
+                    </ComboBox>
+                    <ComboBox x:Name="serviceComboBox" Margin="0,90,0,0" 
+                              ItemsSource="{Binding ServiceComboBoxItemsSource}" 
+                              SelectedValuePath="{Binding ServiceComboBoxSelectedValuePath}" 
+                              DisplayMemberPath="{Binding ServiceComboBoxDisplayMemberPath}" 
+                              Height="25" VerticalAlignment="Top"/>
+                    
                     <Label Margin="0,120,0,0"  Content="..." VerticalAlignment="Top"/>
                     <Label Content="..." Margin="0,150,0,0" VerticalAlignment="Top"/>
                 </Grid>

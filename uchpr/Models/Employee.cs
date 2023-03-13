@@ -7,9 +7,9 @@ using uchpr.Interfaces;
 
 namespace uchpr.Models
 {
-    public class User : IUserInfo
+    public class Employee : IEmployee
     {
-        public string userName { get; set; }
-        public string password { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
     }
 }

@@ -20,22 +20,19 @@
             <Grid x:Name="inputUserGrid" Height="55" VerticalAlignment="Top" Width="251">
                 <Grid x:Name="loginGrid" Height="25" VerticalAlignment="Top">
                     <Label x:Name="loginLabel" Content="Логин" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox x:Name="loginTextBox" Text="{Binding Login}" TextWrapping="Wrap" Width="170" HorizontalAlignment="Center" Height="20" Margin="20,0,0,0"/>
+                    <TextBox x:Name="loginTextBox" Text="{Binding Login, Mode=TwoWay}" TextWrapping="Wrap" Width="170" HorizontalAlignment="Center" Height="20" Margin="20,0,0,0"/>
                 </Grid>
                 <Grid x:Name="passwordGrid" Height="25" VerticalAlignment="Bottom" Margin="0,10,0,0">
                     <Label x:Name="passwordLabel" Content="Пароль" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Button x:Name="showPasswordButton" Content="👁" HorizontalAlignment="Right" Height="20" Width="20" Margin="0,0,30,0" Background="#00DDDDDD" BorderBrush="#FFABADB3" Foreground="Black"/>
-                    <TextBox Name="passwordBoxUnMask" Text="{Binding Password}" Width="150" Height="20" HorizontalAlignment="Center"/>
+                    <TextBox Name="passwordBoxUnMask" Text="{Binding Password, Mode=TwoWay}" Width="150" Height="20" HorizontalAlignment="Center"/>
                 </Grid>
             </Grid>
             <Grid x:Name="submitGrid" VerticalAlignment="Bottom">
                 <Button x:Name="loginButton" Content="Войти" Command="{Binding UserAuthentificationCommand}" HorizontalAlignment="Center" Width="100" Height="25"/>
             </Grid>
         </Grid>
-        <Grid x:Name="connectionStateGrid" Height="25" VerticalAlignment="Bottom">
-            <Label x:Name="connectionLabel" Content="{Binding ConnectionStatus, IsAsync=True}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        </Grid>
-        <Grid x:Name="authorizationStateGrid" Height="25" VerticalAlignment="Bottom" Margin="0,0,0,25">
+        <Grid x:Name="authorizationStateGrid" Height="25" VerticalAlignment="Bottom" Margin="0,0,0,10">
             <Label x:Name="authorizationLabel" Content="{Binding AuthorizationStatus, IsAsync=True}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
     </Grid>

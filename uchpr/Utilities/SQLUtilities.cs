@@ -15,7 +15,8 @@ namespace uchpr.Utilities
     {
         public MySqlCommand PullData(string query)
         {
-            return new(query, DBUtilities.GetDBConnection());
+            MySqlConnection connection = DBUtilities.GetDBConnection();
+            return new(query, connection);
 
         }
         public MySqlCommand AddTypeValue(MySqlCommand sqlCommand, string plug, MySqlDbType type, string value)
@@ -27,8 +28,25 @@ namespace uchpr.Utilities
         {
             MySqlDataAdapter dataAdapter = new();
             dataAdapter.SelectCommand = sqlCommand;
-            dataAdapter.Fill(dataTable);
+            try
+            {
+                dataAdapter.Fill(dataTable);
+            }
+            catch (MySqlException) { }
+
             return dataTable;
+        }
+        public DataSet FillDataSet(MySqlCommand sqlCommand, DataSet dataSet)
+        {
+            MySqlDataAdapter dataAdapter = new();
+            dataAdapter.SelectCommand = sqlCommand;
+            try
+            {
+                dataAdapter.Fill(dataSet);
+            }
+            catch (MySqlException) { }
+
+            return dataSet;
         }
     }
 }

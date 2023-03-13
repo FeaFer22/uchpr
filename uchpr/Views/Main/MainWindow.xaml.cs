@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -23,27 +24,9 @@ namespace uchpr
     /// </summary>
     public partial class MainWindow : Window
     {
-        SQLUtilities sqlUtilities;
-
         public MainWindow()
         {
             InitializeComponent();
-            sqlUtilities = new SQLUtilities();
-            DataGridFill();
-        }
-
-        public void DataGridFill()
-        {
-            string queryString = "select * from orders";
-
-            MySqlCommand sqlCommand = sqlUtilities.PullData(queryString);
-            DataTable dataTable = new();
-            MySqlDataAdapter dataAdapter = new();
-            dataAdapter.SelectCommand = sqlCommand;
-            dataAdapter.Fill(dataTable);
-
-            ordersDataGrid.ItemsSource = dataTable.DefaultView;
-            dataAdapter.Update(dataTable);
         }
     }
 }

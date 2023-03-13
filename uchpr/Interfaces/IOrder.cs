@@ -1,15 +1,12 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using uchpr.Interfaces;
-using uchpr.Utilities;
 
-namespace uchpr.Models
+namespace uchpr.Interfaces
 {
-    internal class Order : IOrder
+    internal interface IOrder
     {
         public int Id { get; set; }
         public string Date { get; set; }
@@ -18,6 +15,5 @@ namespace uchpr.Models
         public string ClientName { get; set; }
         public string ServiceName { get; set; }
         public string EmployeeName { get; set; }
-
     }
 }
